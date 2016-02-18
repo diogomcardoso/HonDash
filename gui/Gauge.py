@@ -20,6 +20,7 @@ class Gauge:
         self.needleStipple = needleStipple
 	self.idMarks = []
 	self.idValues = []
+	self.lastValue = None
 
         for i in range(0,self.maxValue+1,stepValue):
             degree=self.startGauge+((i*self.endGauge)/self.maxValue)
@@ -46,6 +47,9 @@ class Gauge:
         self.needleCover=canvas.create_oval(x-(needleCoverDiameter/2),y-(needleCoverDiameter/2),x+(needleCoverDiameter/2),y+(needleCoverDiameter/2),fill=needleCoverColor)
 
     def setValue(self,value):
+    	value = smoothValue(self.lastValue,value)
+    	self.lastValue = value
+    	
 	self.canvas.delete(self.needleArrow)
         self.canvas.delete(self.needleBase)
 
@@ -69,7 +73,12 @@ class Gauge:
 	for number in self.idValues:
 	    number.setColor(color)
 
-
+    def smoothValue(self,oldValue,newvalue):
+    	try:
+    	    return oldValue + ((newValue - oldValue) / abs(newValue - oldValue))
+    	except Exception as e:
+    	    return newValue
+    	
 
 
 
