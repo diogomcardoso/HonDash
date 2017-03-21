@@ -8,7 +8,7 @@ root = Tk()
 index=20
 def set(canvas,arc):
     global index
-    arc.setFill(index)
+    arc.set_status(index)
     index=index+1    
     canvas.after(10,set,canvas,arc)
     

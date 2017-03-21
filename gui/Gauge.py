@@ -67,7 +67,7 @@ class Gauge:
 	    self.canvas.itemconfig(mark,fill=color)
 
 	for number in self.idValues:
-	    number.setColor(color)
+	    number.set_color(color)
 
 
 

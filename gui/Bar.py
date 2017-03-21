@@ -1,41 +1,44 @@
 class Bar:
-    
-    def __init__(self,canvas,x,y,minWidth,maxWidth,minHeight,maxHeight,minValue,maxValue,color,backgroundColor):
+    def __init__(self, canvas, x, y, min_width, max_width, min_height, max_height, min_value, max_value, color,
+                 background_color):
         self.x = x
         self.y = y
         self.canvas = canvas
-        self.minWidth = minWidth
-        self.maxWidth = maxWidth
-        self.minHeight = minHeight
-        self.maxHeight = -maxHeight
-        self.minValue = minValue
-        self.maxValue = maxValue
-        self.idBackgroundBar = self.canvas.create_rectangle(x,y,x+self.maxWidth,y+self.maxHeight,fill=backgroundColor,outline=backgroundColor)
-        self.idBar = self.canvas.create_rectangle(x,y,x+self.maxWidth,y+self.maxHeight,fill=color,outline=color)
+        self.minWidth = min_width
+        self.maxWidth = max_width
+        self.minHeight = min_height
+        self.maxHeight = -max_height
+        self.minValue = min_value
+        self.maxValue = max_value
+        self.idBackgroundBar = self.canvas.create_rectangle(x, y, x + self.maxWidth, y + self.maxHeight,
+                                                            fill=background_color, outline=background_color)
+        self.idBar = self.canvas.create_rectangle(x, y, x + self.maxWidth, y + self.maxHeight, fill=color,
+                                                  outline=color)
 
-    def setHeight(self,value):        
+    def set_height(self, value):
         if value > self.maxValue:
             value = self.maxValue
         elif value < self.minValue:
             value = self.minValue
 
-        newHeight = (((value - self.minValue) * (self.maxHeight - self.minHeight)) / (self.maxValue - self.minValue)) + self.minHeight
-        newHeight = self.y + newHeight
-	actualDimension = self.canvas.coords(self.idBar)
-        self.canvas.coords(self.idBar,actualDimension[0],newHeight,actualDimension[2],actualDimension[3])
+        new_height = (((value - self.minValue) * (self.maxHeight - self.minHeight)) / (
+            self.maxValue - self.minValue)) + self.minHeight
+        new_height += self.y
+        actual_dimension = self.canvas.coords(self.idBar)
+        self.canvas.coords(self.idBar, actual_dimension[0], new_height, actual_dimension[2], actual_dimension[3])
 
-    def setWidth(self,value):
+    def set_width(self, value):
         if value > self.maxValue:
             value = self.maxValue
         elif value < self.minValue:
             value = self.minValue
 
-        newWidth = (((value - self.minValue) * (self.maxWidth - self.minWidth)) / (self.maxValue - self.minValue)) + self.minWidth
-        newWidth = self.x+newWidth    
-        actualDimension = self.canvas.coords(self.idBar)
-        self.canvas.coords(self.idBar,actualDimension[0],actualDimension[1],newWidth,actualDimension[3])
-        
-    def setBackgroundColor(self,color):
-    	self.canvas.itemconfig(self.idBackgroundBar,fill=color)
-    	self.canvas.itemconfig(self.idBackgroundBar,outline=color)
-    	
+        new_width = (((value - self.minValue) * (self.maxWidth - self.minWidth)) / (
+            self.maxValue - self.minValue)) + self.minWidth
+        new_width += self.x
+        actual_dimension = self.canvas.coords(self.idBar)
+        self.canvas.coords(self.idBar, actual_dimension[0], actual_dimension[1], new_width, actual_dimension[3])
+
+    def set_background_color(self, color):
+        self.canvas.itemconfig(self.idBackgroundBar, fill=color)
+        self.canvas.itemconfig(self.idBackgroundBar, outline=color)

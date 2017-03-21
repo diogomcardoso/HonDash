@@ -19,5 +19,5 @@ class Gforce:
         xForce=float(xForce)/self.maxG
         yForce=float(yForce)/self.maxG
         self.canvas.coords(self.idLine,self.x,self.y,self.x+((self.diameter/2)*xForce),self.y+((self.diameter/2)*yForce))
-        self.text.setText(str("%.1f" % g)+" G")
+        self.text.set_text(str("%.1f" % g) + " G")
         

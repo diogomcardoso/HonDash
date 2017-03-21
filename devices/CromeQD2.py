@@ -22,72 +22,76 @@ GEAR_B1_CROME14 = 0x01
 GEAR_B2_CROME14 = 0x02
 GEAR_B3_CROME14 = 0x4F
 
-class CromeQD2:   
 
-    def calcTempInCelsius(self,raw):
-        raw = raw / 51.
-        raw = (0.1423*pow(raw,6)) - (2.4938*pow(raw,5))  + (17.837*pow(raw,4)) - (68.698*pow(raw,3)) + (154.69*pow(raw,2)) - (232.75*raw) + 284.24
-        return ((raw - 32.)*5.)/9.
+class CromeQD2:
+    @staticmethod
+    def calc_temp_in_celsius(raw):
+        raw /= 51.
+        raw = (0.1423 * pow(raw, 6)) - (2.4938 * pow(raw, 5)) + (17.837 * pow(raw, 4)) - (68.698 * pow(raw, 3)) + (
+            154.69 * pow(raw, 2)) - (232.75 * raw) + 284.24
+        return ((raw - 32.) * 5.) / 9.
 
     def __init__(self):
         self.serialPort = SerialPort()
 
-    def getGear(self):
-        gearRaw = self.serialPort.getByteFromThree(GEAR_B1_CROME14,GEAR_B2_CROME14,GEAR_B3_CROME14)
-        return gearRaw
+    def get_gear(self):
+        return self.serialPort.get_byte_from_three(GEAR_B1_CROME14, GEAR_B2_CROME14, GEAR_B3_CROME14)
 
-    def getRpm(self):
-	try:
-            rpmLowRaw=self.serialPort.getByte(RPMLOW_CROME14)
-            rpmHighRaw=self.serialPort.getByte(RPMHIGH_CROME14) 
-            return 1851562/((rpmHighRaw * 256) + rpmLowRaw)
-	except: return 0
-		
-    def getBattery(self):
-        batteryRaw = self.serialPort.getByte(BATT_CROME14)
-        return (26.0 * batteryRaw) / 270.0
+    def get_rpm(self):
+        try:
+            rpm_low_raw = self.serialPort.get_byte(RPMLOW_CROME14)
+            rpm_high_raw = self.serialPort.get_byte(RPMHIGH_CROME14)
+            return 1851562 / ((rpm_high_raw * 256) + rpm_low_raw)
+        except:
+            return 0
 
-    def getIat(self):
-        iatRaw = self.serialPort.getByte(IAT_CROME14)
-        return self.calcTempInCelsius(iatRaw)
+    def get_battery(self):
+        battery_raw = self.serialPort.get_byte(BATT_CROME14)
+        return (26.0 * battery_raw) / 270.0
 
-    def getEct(self):
-        ectRaw = self.serialPort.getByte(ECT_CROME14)
-	return self.calcTempInCelsius(ectRaw)
+    def get_iat(self):
+        iat_raw = self.serialPort.get_byte(IAT_CROME14)
+        return self.calcTempInCelsius(iat_raw)
 
-    def getTps(self):
-        tpsRaw = self.serialPort.getByte(TPS_CROME14)
-        tpsRaw = (0.4716  * tpsRaw) - 11.3184
-        return tpsRaw
+    def get_ect(self):
+        ect_raw = self.serialPort.get_byte(ECT_CROME14)
+        return self.calcTempInCelsius(ect_raw)
 
-    def getO2(self):
-        o2Raw = self.serialPort.getByte(O2_CROME14)
-        return (2*o2Raw) + 10
+    def get_tps(self):
+        tps_raw = self.serialPort.get_byte(TPS_CROME14)
+        tps_raw = (0.4716 * tps_raw) - 11.3184
+        return tps_raw
 
-    def getVss(self):
-        vssRaw = self.serialPort.getByte(VSS_CROME14)
-        return vssRaw
+    def get_o2(self):
+        o2_raw = self.serialPort.get_byte(O2_CROME14)
+        return (2 * o2_raw) + 10
 
-    def getMap(self):
-        mapRaw = self.serialPort.getByte(MAP_CROME14)
-        return (1764/255)*mapRaw
+    def get_vss(self):
+        vss_raw = self.serialPort.get_byte(VSS_CROME14)
+        return vss_raw
 
-    def getInj(self):
-        injLowRaw = self.serialPort.getByte(INJLOW_CROME14)
-        injHighRaw = self.serialPort.getByte(INJHIGH_CROME14)
-        injRaw = (injHighRaw * 256) + injLowRaw;
-        return injRaw / 352
+    def get_map(self):
+        map_raw = self.serialPort.get_byte(MAP_CROME14)
+        return (1764 / 255) * map_raw
 
-    def getIgn(self):
-        ignRaw = self.serialPort.getByte(IGN_CROME14)
-        return (0.25 * ignRaw) - 6
+    def get_inj(self):
+        inj_low_raw = self.serialPort.get_byte(INJLOW_CROME14)
+        inj_high_raw = self.serialPort.get_byte(INJHIGH_CROME14)
+        inj_raw = (inj_high_raw * 256) + inj_low_raw;
+        return inj_raw / 352
 
-    def getDutyCycle(self):
-        rpm = self.getRpm()
-        inj = self.getInj()
+    def get_ign(self):
+        ign_raw = self.serialPort.get_byte(IGN_CROME14)
+        return (0.25 * ign_raw) - 6
+
+    def get_duty_cycle(self):
+        rpm = self.get_rpm()
+        inj = self.get_inj()
         return (rpm * inj) / 1200
 
-    def getVtec(self):
-        vtec = self.serialPort.getByte(VTEC_CROME14)
-        if (vtec == 67): return True
-        else: return False
+    def get_vtec(self):
+        vtec = self.serialPort.get_byte(VTEC_CROME14)
+        if vtec == 67:
+            return True
+        else:
+            return False
