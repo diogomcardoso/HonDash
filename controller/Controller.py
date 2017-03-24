@@ -1,3 +1,5 @@
+from Tkinter import *
+
 from devices.Time import *
 import numpy
 from controller.Global import *
@@ -8,9 +10,36 @@ class Controller:
     locale.setlocale(locale.LC_ALL, 'en_GB.utf8')
 
     def __init__(self):
+        # ratio constants
+        self.root = Tk()
+        self.root.attributes('-fullscreen', True)
+        self.root.focus_set()
+
+        def close():
+            self.root.destroy()
+
+        self.root.bind('<Escape>', close)
+        self.root.config(cursor='none')
+
+        win_width = self.root.winfo_screenwidth()  # 1280
+        win_height = self.root.winfo_screenheight()  # 800
+
+        self.objects = []
+        self.canvas = Canvas(self.root, width=win_width, height=win_height, bg=Global.OFFBgColor)
+        self.canvas.pack()
         self.timer = Time()
 
-    def new_update_all(self, canvas, run_time):
-        print canvas.type(canvas.find_all()[0])
-        run_time.set_text(self.timer.time)
-        canvas.after(10, self.new_update_all, canvas, run_time)
+    def add_object(self, gui_object):
+        gui_object.add_to_canvas(self.canvas)
+        self.objects.append(gui_object)
+
+    def _new_update_all(self):
+        for gui_object in self.canvas.find_all():
+            gui_object.set_text(self.timer.time)
+        self.canvas.after(10, self._new_update_all)
+
+    def start(self):
+        self.canvas.after(10, self._new_update_all())
+        # main loop
+        self.root.mainloop()
+

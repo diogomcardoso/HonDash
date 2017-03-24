@@ -17,24 +17,8 @@ from gui.Icon import *
 import sys
 from controller.Global import *
 
-#fsock = open('error.log', 'w')
-#sys.stderr = fsock
-
-# ratio constants
-root = Tk()
-root.attributes('-fullscreen', True)
-root.focus_set()
-
-
-def close(self):
-    root.destroy()
-
-
-root.bind('<Escape>', close)
-root.config(cursor='none')
-
-winWidth = root.winfo_screenwidth()  # 1280
-winHeight = root.winfo_screenheight()  # 800
+# fsock = open('error.log', 'w')
+# sys.stderr = fsock
 
 speedFontSize = 120
 circleValueSize = 40
@@ -45,16 +29,13 @@ circleWidth = 40
 # init devices
 serial = CromeQD2()
 mcp3208 = MCP3208()
+
 controller = Controller()
 
-# init canvas
-canvas = Canvas(root, width=winWidth, height=winHeight, bg=Global.OFFBgColor)
-canvas.pack()
-
 # info
-runTime = Text(canvas, 100, 415, "Helvetica", 25, "bold italic", Global.OFFtextColor, "", "", "00:00:00")
+runTime = Text(100, 415, "Helvetica", 25, "bold italic", Global.OFFtextColor, "", "", "00:00:00")
+controller.add_object(runTime)
 
-canvas.after(10, controller.new_update_all, canvas, runTime)
+controller.start()
 
-# main loop
-root.mainloop()
+
