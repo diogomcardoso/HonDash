@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 from Tkinter import *
-from gui.Gauge import *
-from gui.Rpm import *
-from gui.Text import *
-from gui.Bar import *
-from gui.Circle import *
-from gui.Arrow import *
-from gui.Gforce import *
+
+import gui
 from controller.Controller import *
 from devices.CromeQD2 import *
 from devices.MCP3208 import *
@@ -33,7 +28,7 @@ mcp3208 = MCP3208()
 controller = Controller()
 
 # info
-runTime = Text(100, 415, "Helvetica", 25, "bold italic", Global.OFFtextColor, "", "", "00:00:00")
+runTime = gui.Text(100, 415, "Helvetica", 25, "bold italic", Global.OFFtextColor, "", "", "00:00:00")
 controller.add_object(runTime)
 
 controller.start()
