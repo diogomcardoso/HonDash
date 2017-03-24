@@ -17,8 +17,8 @@ from gui.Icon import *
 import sys
 from controller.Global import *
 
-fsock = open('error.log', 'w')
-sys.stderr = fsock
+#fsock = open('error.log', 'w')
+#sys.stderr = fsock
 
 # ratio constants
 root = Tk()

@@ -11,6 +11,6 @@ class Controller:
         self.timer = Time()
 
     def new_update_all(self, canvas, run_time):
-        canvas.gettags()
-        run_time.set_text(self.timer.getTimeString())
+        print canvas.type(canvas.find_all()[0])
+        run_time.set_text(self.timer.time)
         canvas.after(10, self.new_update_all, canvas, run_time)
