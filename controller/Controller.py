@@ -15,7 +15,10 @@ class Controller:
         self.root.attributes('-fullscreen', True)
         self.root.focus_set()
 
-        self.root.bind('<Escape>', self.root.destroy())
+        def close():
+            self.root.destroy()
+
+        self.root.bind('<Escape>', close())
         self.root.config(cursor='none')
 
         win_width = self.root.winfo_screenwidth()  # 1280
