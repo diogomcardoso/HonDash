@@ -1,6 +1,6 @@
 from Tkinter import *
 
-from devices.Time import *
+import devices.Time
 import numpy
 from controller.Global import *
 import locale
@@ -27,7 +27,7 @@ class Controller:
         self.objects = []
         self.canvas = Canvas(self.root, width=win_width, height=win_height, bg=Global.OFFBgColor)
         self.canvas.pack()
-        self.timer = Time()
+        self.timer = devices.Time.Time()
 
     def add_object(self, gui_object):
         gui_object.add_to_canvas(self.canvas)
