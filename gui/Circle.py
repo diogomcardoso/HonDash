@@ -4,9 +4,10 @@ from Text import *
 class Circle:
     def __init__(self, canvas, x, y, diameter, width, start_degrees, range_degrees, min_value, max_value, min_wrn_value,
                  max_wrn_value, min_color, normal_color, max_color, font_size, text_size, text_color, text, background_color,
-                 update_function, update_param):
-        self.updateFunction = update_function
-        self.updateParam = update_param
+                 update_class=None, update_function=None, update_args=None):
+        self.update_function = update_function
+        self.update_class = update_class
+        self.update_args = update_args
         self.canvas = canvas
         self.minValue = min_value
         self.maxValue = max_value
@@ -53,8 +54,8 @@ class Circle:
     def set_background_color(self, color):
         self.canvas.itemconfig(self.idBackground, outline=color)
 
-    def update_value(self):
-        if self.updateParam is not None:
-            self.set_value(self.updateFunction(self.updateParam))
-        else:
-            self.set_value(self.updateFunction())
+    def update(self):
+        if self.update_function is not None and self.update_args is None:
+            self.set_value(getattr(self.update_class, self.update_function)())
+        if self.update_function is not None and self.update_args is not None:
+            self.set_value(getattr(self.update_class, self.update_function)(*self.update_args))
