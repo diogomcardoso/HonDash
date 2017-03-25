@@ -9,16 +9,13 @@ import locale
 class Controller:
     locale.setlocale(locale.LC_ALL, 'en_GB.utf8')
 
-    def close(self):
-        self.root.destroy()
-
     def __init__(self):
         # ratio constants
         self.root = Tk()
         self.root.attributes('-fullscreen', True)
         self.root.focus_set()
 
-        self.root.bind('<Escape>', self.close)
+        self.root.bind('<Escape>', self.root.destroy())
         self.root.config(cursor='none')
 
         win_width = self.root.winfo_screenwidth()  # 1280
