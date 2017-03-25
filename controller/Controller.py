@@ -35,7 +35,7 @@ class Controller:
 
     def _new_update_all(self):
         for gui_object in self.canvas.find_all():
-            gui_object.set_text(self.timer.time)
+            self.objects[gui_object].set_text(self.timer.time)
         self.canvas.after(10, self._new_update_all)
 
     def start(self):
