@@ -14,15 +14,16 @@ class Kpro:
         self.data = []
         self.dev = usb.core.find(idVendor=0x403, idProduct=0xf5f8)  # kpro2
         # self.dev = usb.core.find(idVendor=0x1c40, idProduct=0x0434) #kpro4
-        self.dev.set_configuration()
-        cfg = self.dev.get_active_configuration()
-        intf = cfg[(0, 0)]
-        self.ep = usb.util.find_descriptor(
-            intf,
-            custom_match= \
-                lambda e: \
-                    usb.util.endpoint_direction(e.bEndpointAddress) == \
-                    usb.util.ENDPOINT_OUT)
+        if self.dev is not None:
+            self.dev.set_configuration()
+            cfg = self.dev.get_active_configuration()
+            intf = cfg[(0, 0)]
+            self.ep = usb.util.find_descriptor(
+                intf,
+                custom_match= \
+                    lambda e: \
+                        usb.util.endpoint_direction(e.bEndpointAddress) == \
+                        usb.util.ENDPOINT_OUT)
 
     def update(self):
         try:
@@ -31,6 +32,7 @@ class Kpro:
             # datos = dev.read(0x82,10000,1000) kpro4
             self.data = self.dev.read(0x81, 10000, 1000)  # kpro2
         except:
+            self.__init__()
             pass
 
     def bat(self):

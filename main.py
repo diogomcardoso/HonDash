@@ -2,6 +2,7 @@
 import gui.Circle
 from controller.Controller import *
 from controller.Global import *
+from devices.Formula import Formula
 from devices.DigitalInput import DigitalInput
 from devices.Kpro import Kpro
 from devices.MCP3208 import MCP3208
@@ -36,7 +37,8 @@ controller = Controller(canvas)
 analog = MCP3208()
 timer = devices.Time.Time()
 kpro = Kpro()
-di12 = DigitalInput(12, None)
+formula = Formula()
+
 
 runTime = gui.Text.Text(canvas, 100, 415, "Helvetica", 25, "bold italic", Global.OFFtextColor, "", "", "00:00:00",
                         timer, 'get_time')
@@ -44,12 +46,17 @@ battery = gui.Circle.Circle(canvas, 650, 540, circleRadius, circleWidth, 240, 30
                             Global.circleNormalColor, Global.circleMaxColor, circleValueSize, circleTextSize,
                             Global.OFFtextColor, "BAT", Global.OFFshadeColor, kpro, 'bat', None)
 
-arrowLeft = Arrow(canvas, 100, 100,0.35, Global.signalColor, "left", False, di12, 'value', None)
+arrowLeft = Arrow(canvas, 100, 100, 0.35, Global.signalColor, "left", False, DigitalInput(12, None), 'value', None)
+
+oilTemp = gui.Circle.Circle(canvas, 150, 540, circleRadius, circleWidth, 240, 300, 0, 150, 80, 120,
+                            Global.circleMinColor, Global.circleNormalColor, Global.circleMaxColor, circleValueSize,
+                            circleTextSize, Global.OFFtextColor, "OIL T", Global.OFFshadeColor, analog, 'adc_with_formula', [0, formula.vdo_323_057])
 
 controller.add_object(runTime)
 controller.add_object(battery)
 controller.add_object(kpro)
 controller.add_object(arrowLeft)
+controller.add_object(oilTemp)
 
 controller.start()
 # main loop
