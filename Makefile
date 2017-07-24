@@ -1,4 +1,5 @@
 PIP=`. venv/bin/activate; which pip`
+PYTHON=`. venv/bin/activate; which python`
 DEPS:=requirements/requirements.txt
 PYTEST=`. venv/bin/activate; which pytest`
 
