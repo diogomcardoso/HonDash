@@ -4,7 +4,7 @@ from controller.Controller import *
 from controller.Global import *
 from devices.Formula import Formula
 from devices.DigitalInput import DigitalInput
-from devices.Kpro import Kpro
+from devices.kpro import Kpro
 from devices.MCP3208 import MCP3208
 from gui.Arrow import Arrow
 from gui.Bar import Bar
