@@ -1,0 +1,47 @@
+<html>
+<body>
+
+<canvas id="myCanvas" width="300" height="150" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+
+function circle(x, y, radius, width, label, value, backgroundcolor) {
+	var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.beginPath();
+    ctx.strokeStyle = backgroundcolor;
+    a = ctx.arc(x, y, radius, 0.75 * Math.PI, 2.25 * Math.PI);
+    ctx.lineWidth = width;
+    ctx.stroke();
+
+
+    ctx.beginPath();
+    ctx.strokeStyle="blue";
+    ctx.arc(x, y, radius, 0.75 * Math.PI, 1.25 * Math.PI);
+    ctx.lineWidth = width;
+    ctx.stroke();
+
+    ctx.font = "30px Arial";
+	ctx.textAlign="center";
+    ctx.textBaseline="middle";
+	ctx.fillText(value, x, y);
+
+    ctx.font = "15px Arial";
+    ctx.fillText(label, x, y+((radius*2)/4.5));
+
+    //ctx.stroke();
+    console.log(a)
+
+}
+
+for (i = 0; i < 1000; i++) {
+    circle(150, 75, 50, 20, "BAT", "150", "red")
+}
+
+
+
+</script>
+
+</body>
+</html>

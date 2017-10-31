@@ -1,5 +1,6 @@
 import threading
 
+import time
 import usb.core
 import usb.util
 from numpy import interp
@@ -61,6 +62,7 @@ class Kpro:
         self.data0 = []
         self.data1 = []
         self.data2 = []
+        self.info = []
         self.dev = None
         self.version = 0
 
@@ -120,20 +122,34 @@ class Kpro:
                     if len(temp) == 14: #antes estaba a 16
                         self.data1 = temp
 
-                self.ep.write('\x62')
+                # self.ep.write('\x62')
+                # if self.version == 2:
+                #     temp = self.dev.read(0x81, 10000, 1000)  # kpro2
+                #     if len(temp) == 68:
+                #         self.data2 = temp
+                # elif self.version == 3:
+                #     temp = self.dev.read(0x81, 10000, 1000)  # kpro3
+                #     if len(temp) == 68:
+                #         self.data2 = temp
+                # elif self.version == 4:
+                #     temp = self.dev.read(0x82, 10000, 1000)  # kpro4
+                #     if len(temp) == 25:
+                #         self.data2 = temp
+
+                self.ep.write('\x65')
                 if self.version == 2:
                     temp = self.dev.read(0x81, 10000, 1000)  # kpro2
                     if len(temp) == 68:
-                        self.data2 = temp
+                        self.info = temp
                 elif self.version == 3:
                     temp = self.dev.read(0x81, 10000, 1000)  # kpro3
-                    if len(temp) == 68:
-                        self.data2 = temp
+                    if len(temp) == 16:
+                        self.info = temp
                 elif self.version == 4:
                     temp = self.dev.read(0x82, 10000, 1000)  # kpro4
-                    if len(temp) == 25:
-                        self.data2 = temp
-            except:
+                    self.info = temp
+            except Exception as e:
+                print(e)
                 self.__init__()
 
     def bat(self):
